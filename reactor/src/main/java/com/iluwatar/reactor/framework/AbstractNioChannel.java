@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.reactor.framework;
 
 import java.io.IOException;
@@ -31,6 +32,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import lombok.Getter;
 
 /**
  * This represents the <i>Handle</i> of Reactor pattern. These are resources managed by OS which can
@@ -45,6 +47,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public abstract class AbstractNioChannel {
 
   private final SelectableChannel channel;
+  @Getter
   private final ChannelHandler handler;
   private final Map<SelectableChannel, Queue<Object>> channelToPendingWrites;
   private NioReactor reactor;
@@ -103,15 +106,6 @@ public abstract class AbstractNioChannel {
    */
   public abstract Object read(SelectionKey key) throws IOException;
 
-  /**
-   * Get handler.
-   *
-   * @return the handler associated with this channel.
-   */
-  public ChannelHandler getHandler() {
-    return handler;
-  }
-
   /*
    * Called from the context of reactor thread when the key becomes writable. The channel writes the
    * whole pending block of data at once.
@@ -161,11 +155,7 @@ public abstract class AbstractNioChannel {
     var pendingWrites = this.channelToPendingWrites.get(key.channel());
     if (pendingWrites == null) {
       synchronized (this.channelToPendingWrites) {
-        pendingWrites = this.channelToPendingWrites.get(key.channel());
-        if (pendingWrites == null) {
-          pendingWrites = new ConcurrentLinkedQueue<>();
-          this.channelToPendingWrites.put(key.channel(), pendingWrites);
-        }
+        pendingWrites = this.channelToPendingWrites.computeIfAbsent(key.channel(), k -> new ConcurrentLinkedQueue<>());
       }
     }
     pendingWrites.add(data);

@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.collectionpipeline;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class ImperativeProgramming {
     List<Car> carsSortedByYear = new ArrayList<>();
 
     for (Car car : cars) {
-      if (car.getYear() > 2000) {
+      if (car.year() > 2000) {
         carsSortedByYear.add(car);
       }
     }
@@ -68,13 +69,13 @@ public class ImperativeProgramming {
     Collections.sort(carsSortedByYear, new Comparator<Car>() {
       @Override
       public int compare(Car car1, Car car2) {
-        return car1.getYear() - car2.getYear();
+        return car1.year() - car2.year();
       }
     });
 
     List<String> models = new ArrayList<>();
     for (Car car : carsSortedByYear) {
-      models.add(car.getModel());
+      models.add(car.model());
     }
 
     return models;
@@ -89,12 +90,12 @@ public class ImperativeProgramming {
   public static Map<Category, List<Car>> getGroupingOfCarsByCategory(List<Car> cars) {
     Map<Category, List<Car>> groupingByCategory = new HashMap<>();
     for (Car car : cars) {
-      if (groupingByCategory.containsKey(car.getCategory())) {
-        groupingByCategory.get(car.getCategory()).add(car);
+      if (groupingByCategory.containsKey(car.category())) {
+        groupingByCategory.get(car.category()).add(car);
       } else {
         List<Car> categoryCars = new ArrayList<>();
         categoryCars.add(car);
-        groupingByCategory.put(car.getCategory(), categoryCars);
+        groupingByCategory.put(car.category(), categoryCars);
       }
     }
     return groupingByCategory;
@@ -110,12 +111,12 @@ public class ImperativeProgramming {
   public static List<Car> getSedanCarsOwnedSortedByDate(List<Person> persons) {
     List<Car> cars = new ArrayList<>();
     for (Person person : persons) {
-      cars.addAll(person.getCars());
+      cars.addAll(person.cars());
     }
 
     List<Car> sedanCars = new ArrayList<>();
     for (Car car : cars) {
-      if (Category.SEDAN.equals(car.getCategory())) {
+      if (Category.SEDAN.equals(car.category())) {
         sedanCars.add(car);
       }
     }
@@ -123,7 +124,7 @@ public class ImperativeProgramming {
     sedanCars.sort(new Comparator<Car>() {
       @Override
       public int compare(Car o1, Car o2) {
-        return o1.getYear() - o2.getYear();
+        return o1.year() - o2.year();
       }
     });
 

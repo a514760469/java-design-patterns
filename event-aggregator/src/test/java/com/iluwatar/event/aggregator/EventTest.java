@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.event.aggregator;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -30,17 +31,16 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 /**
- * Date: 12/12/15 - 2:52 PM
+ * EventTest
  *
- * @author Jeroen Meulemeester
  */
-public class EventTest {
+class EventTest {
 
   /**
    * Verify if every event has a non-null, non-empty description
    */
   @Test
-  public void testToString() {
+  void testToString() {
     Arrays.stream(Event.values()).map(Event::toString).forEach(toString -> {
       assertNotNull(toString);
       assertFalse(toString.trim().isEmpty());

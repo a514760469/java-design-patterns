@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +22,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.sharding;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Basic data structure for each tuple stored in data shards.
  */
+@Getter
+@Setter
 public class Data {
 
   private int key;
@@ -46,39 +52,15 @@ public class Data {
     this.type = type;
   }
 
-  public int getKey() {
-    return key;
-  }
-
-  public void setKey(final int key) {
-    this.key = key;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(final String value) {
-    this.value = value;
-  }
-
-  public DataType getType() {
-    return type;
-  }
-
-  public void setType(DataType type) {
-    this.type = type;
-  }
-
   enum DataType {
-    type1, type2, type3
+    TYPE_1, TYPE_2, TYPE_3
   }
 
   @Override
   public String toString() {
     return "Data {" + "key="
-      + key + ", value='" + value
-      + '\'' + ", type=" + type + '}';
+        + key + ", value='" + value
+        + '\'' + ", type=" + type + '}';
   }
 }
 

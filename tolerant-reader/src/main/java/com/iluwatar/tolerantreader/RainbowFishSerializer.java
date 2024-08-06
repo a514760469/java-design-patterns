@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.tolerantreader;
 
 import java.io.FileInputStream;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
+import lombok.NoArgsConstructor;
 
 /**
  * RainbowFishSerializer provides methods for reading and writing {@link RainbowFish} objects to
@@ -36,10 +38,11 @@ import java.util.Map;
  * RainbowFish} objects. This way the reader does not break even though new properties are added to
  * the schema.
  */
+@NoArgsConstructor
 public final class RainbowFishSerializer {
 
-  private RainbowFishSerializer() {
-  }
+  public static final String LENGTH_METERS = "lengthMeters";
+  public static final String WEIGHT_TONS = "weightTons";
 
   /**
    * Write V1 RainbowFish to file.
@@ -48,8 +51,8 @@ public final class RainbowFishSerializer {
     var map = Map.of(
         "name", rainbowFish.getName(),
         "age", String.format("%d", rainbowFish.getAge()),
-        "lengthMeters", String.format("%d", rainbowFish.getLengthMeters()),
-        "weightTons", String.format("%d", rainbowFish.getWeightTons())
+        LENGTH_METERS, String.format("%d", rainbowFish.getLengthMeters()),
+        WEIGHT_TONS, String.format("%d", rainbowFish.getWeightTons())
     );
 
     try (var fileOut = new FileOutputStream(filename);
@@ -65,11 +68,11 @@ public final class RainbowFishSerializer {
     var map = Map.of(
         "name", rainbowFish.getName(),
         "age", String.format("%d", rainbowFish.getAge()),
-        "lengthMeters", String.format("%d", rainbowFish.getLengthMeters()),
-        "weightTons", String.format("%d", rainbowFish.getWeightTons()),
-        "angry", Boolean.toString(rainbowFish.getAngry()),
-        "hungry", Boolean.toString(rainbowFish.getHungry()),
-        "sleeping", Boolean.toString(rainbowFish.getSleeping())
+        LENGTH_METERS, String.format("%d", rainbowFish.getLengthMeters()),
+        WEIGHT_TONS, String.format("%d", rainbowFish.getWeightTons()),
+        "angry", Boolean.toString(rainbowFish.isAngry()),
+        "hungry", Boolean.toString(rainbowFish.isHungry()),
+        "sleeping", Boolean.toString(rainbowFish.isSleeping())
     );
 
     try (var fileOut = new FileOutputStream(filename);
@@ -92,8 +95,8 @@ public final class RainbowFishSerializer {
     return new RainbowFish(
         map.get("name"),
         Integer.parseInt(map.get("age")),
-        Integer.parseInt(map.get("lengthMeters")),
-        Integer.parseInt(map.get("weightTons"))
+        Integer.parseInt(map.get(LENGTH_METERS)),
+        Integer.parseInt(map.get(WEIGHT_TONS))
     );
   }
 }

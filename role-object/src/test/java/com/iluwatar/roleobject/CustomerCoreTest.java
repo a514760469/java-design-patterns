@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,72 +24,69 @@
  */
 package com.iluwatar.roleobject;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CustomerCoreTest {
+class CustomerCoreTest {
 
   @Test
-  public void addRole() {
+  void addRole() {
     var core = new CustomerCore();
-    assertTrue(core.addRole(Role.Borrower));
+    assertTrue(core.addRole(Role.BORROWER));
   }
 
   @Test
-  public void hasRole() {
+  void hasRole() {
     var core = new CustomerCore();
-    core.addRole(Role.Borrower);
-    assertTrue(core.hasRole(Role.Borrower));
-    assertFalse(core.hasRole(Role.Investor));
+    core.addRole(Role.BORROWER);
+    assertTrue(core.hasRole(Role.BORROWER));
+    assertFalse(core.hasRole(Role.INVESTOR));
   }
 
   @Test
-  public void remRole() {
+  void remRole() {
     var core = new CustomerCore();
-    core.addRole(Role.Borrower);
+    core.addRole(Role.BORROWER);
 
-    var bRole = core.getRole(Role.Borrower, BorrowerRole.class);
+    var bRole = core.getRole(Role.BORROWER, BorrowerRole.class);
     assertTrue(bRole.isPresent());
 
-    assertTrue(core.remRole(Role.Borrower));
+    assertTrue(core.remRole(Role.BORROWER));
 
-    var empt = core.getRole(Role.Borrower, BorrowerRole.class);
+    var empt = core.getRole(Role.BORROWER, BorrowerRole.class);
     assertFalse(empt.isPresent());
   }
 
   @Test
-  public void getRole() {
+  void getRole() {
     var core = new CustomerCore();
-    core.addRole(Role.Borrower);
+    core.addRole(Role.BORROWER);
 
-    var bRole = core.getRole(Role.Borrower, BorrowerRole.class);
+    var bRole = core.getRole(Role.BORROWER, BorrowerRole.class);
     assertTrue(bRole.isPresent());
 
-    var nonRole = core.getRole(Role.Borrower, InvestorRole.class);
+    var nonRole = core.getRole(Role.BORROWER, InvestorRole.class);
     assertFalse(nonRole.isPresent());
 
-    var invRole = core.getRole(Role.Investor, InvestorRole.class);
+    var invRole = core.getRole(Role.INVESTOR, InvestorRole.class);
     assertFalse(invRole.isPresent());
   }
 
-
   @Test
-  public void toStringTest() {
+  void toStringTest() {
     var core = new CustomerCore();
-    core.addRole(Role.Borrower);
-    assertEquals(core.toString(), "Customer{roles=[Borrower]}");
+    core.addRole(Role.BORROWER);
+    assertEquals("Customer{roles=[BORROWER]}", core.toString());
 
     core = new CustomerCore();
-    core.addRole(Role.Investor);
-    assertEquals(core.toString(), "Customer{roles=[Investor]}");
+    core.addRole(Role.INVESTOR);
+    assertEquals("Customer{roles=[INVESTOR]}", core.toString());
 
     core = new CustomerCore();
-    assertEquals(core.toString(), "Customer{roles=[]}");
-
-
+    assertEquals("Customer{roles=[]}", core.toString());
   }
 
 }

@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.singleton;
 
 import static java.time.Duration.ofMillis;
@@ -43,13 +44,9 @@ import org.junit.jupiter.api.Test;
  * called in the SAME thread. The second proves that multiple calls to the singleton getInstance
  * object are the same when called in the DIFFERENT thread.</p>
  *
- * <p>Date: 12/29/15 - 19:25 PM</p>
- *
  * @param <S> Supplier method generating singletons
- * @author Jeroen Meulemeester
- * @author Richard Jones
  */
-public abstract class SingletonTest<S> {
+abstract class SingletonTest<S> {
 
   /**
    * The singleton's getInstance method.
@@ -69,7 +66,7 @@ public abstract class SingletonTest<S> {
    * Test the singleton in a non-concurrent setting.
    */
   @Test
-  public void testMultipleCallsReturnTheSameObjectInSameThread() {
+  void testMultipleCallsReturnTheSameObjectInSameThread() {
     // Create several instances in the same calling thread
     var instance1 = this.singletonInstanceMethod.get();
     var instance2 = this.singletonInstanceMethod.get();
@@ -84,7 +81,7 @@ public abstract class SingletonTest<S> {
    * Test singleton instance in a concurrent setting.
    */
   @Test
-  public void testMultipleCallsReturnTheSameObjectInDifferentThreads() throws Exception {
+  void testMultipleCallsReturnTheSameObjectInDifferentThreads() {
     assertTimeout(ofMillis(10000), () -> {
       // Create 10000 tasks and inside each callable instantiate the singleton class
       final var tasks = IntStream.range(0, 10000)
@@ -95,7 +92,7 @@ public abstract class SingletonTest<S> {
       final var executorService = Executors.newFixedThreadPool(8);
       final var results = executorService.invokeAll(tasks);
 
-      // wait for all of the threads to complete
+      // wait for all the threads to complete
       final var expectedInstance = this.singletonInstanceMethod.get();
       for (var res : results) {
         final var instance = res.get();

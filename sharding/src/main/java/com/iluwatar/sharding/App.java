@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.sharding;
 
 /**
@@ -36,10 +37,10 @@ public class App {
    */
   public static void main(String[] args) {
 
-    var data1 = new Data(1, "data1", Data.DataType.type1);
-    var data2 = new Data(2, "data2", Data.DataType.type2);
-    var data3 = new Data(3, "data3", Data.DataType.type3);
-    var data4 = new Data(4, "data4", Data.DataType.type1);
+    var data1 = new Data(1, "data1", Data.DataType.TYPE_1);
+    var data2 = new Data(2, "data2", Data.DataType.TYPE_2);
+    var data3 = new Data(3, "data3", Data.DataType.TYPE_3);
+    var data4 = new Data(4, "data4", Data.DataType.TYPE_1);
 
     var shard1 = new Shard(1);
     var shard2 = new Shard(2);

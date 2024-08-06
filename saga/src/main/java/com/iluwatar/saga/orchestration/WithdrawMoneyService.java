@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.saga.orchestration;
 
 /**
@@ -37,7 +38,7 @@ public class WithdrawMoneyService extends Service<String> {
     if (value.equals("bad_order") || value.equals("crashed_order")) {
       LOGGER.info("The chapter '{}' has been started. But the exception has been raised."
               + "The rollback is about to start",
-          getName(), value);
+          getName());
       return ChapterResult.failure(value);
     }
     return super.process(value);

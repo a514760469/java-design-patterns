@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.reactor.framework;
 
 import java.io.IOException;
@@ -32,12 +33,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class acts as Synchronous Event De-multiplexer and Initiation Dispatcher of Reactor pattern.
- * Multiple handles i.e. {@link AbstractNioChannel}s can be registered to the reactor and it blocks
+ * Multiple handles i.e. {@link AbstractNioChannel}s can be registered to the reactor, and it blocks
  * for events from all these handles. Whenever an event occurs on any of the registered handles, it
  * synchronously de-multiplexes the event which can be any of read, write or accept, and dispatches
  * the event to the appropriate {@link ChannelHandler} using the {@link Dispatcher}.
@@ -46,13 +46,12 @@ import org.slf4j.LoggerFactory;
  * #start()} method. {@link NioReactor} uses {@link Selector} for realizing Synchronous Event
  * De-multiplexing.
  *
- * <p>NOTE: This is one of the ways to implement NIO reactor and it does not take care of all
+ * <p>NOTE: This is one of the ways to implement NIO reactor, and it does not take care of all
  * possible edge cases which are required in a real application. This implementation is meant to
  * demonstrate the fundamental concepts that lie behind Reactor pattern.
  */
+@Slf4j
 public class NioReactor {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(NioReactor.class);
 
   private final Selector selector;
   private final Dispatcher dispatcher;
@@ -98,9 +97,11 @@ public class NioReactor {
    * @throws IOException          if any I/O error occurs.
    */
   public void stop() throws InterruptedException, IOException {
-    reactorMain.shutdownNow();
+    reactorMain.shutdown();
     selector.wakeup();
-    reactorMain.awaitTermination(4, TimeUnit.SECONDS);
+    if (!reactorMain.awaitTermination(4, TimeUnit.SECONDS)) {
+      reactorMain.shutdownNow();
+    }
     selector.close();
     LOGGER.info("Reactor stopped");
   }
@@ -211,7 +212,7 @@ public class NioReactor {
 
   /**
    * Queues the change of operations request of a channel, which will change the interested
-   * operations of the channel sometime in future.
+   * operations of the channel sometime in the future.
    *
    * <p>This is a non-blocking method and does not guarantee that the operations have changed when
    * this method returns.
@@ -227,9 +228,9 @@ public class NioReactor {
   /**
    * A command that changes the interested operations of the key provided.
    */
-  class ChangeKeyOpsCommand implements Runnable {
-    private SelectionKey key;
-    private int interestedOps;
+  static class ChangeKeyOpsCommand implements Runnable {
+    private final SelectionKey key;
+    private final int interestedOps;
 
     public ChangeKeyOpsCommand(SelectionKey key, int interestedOps) {
       this.key = key;

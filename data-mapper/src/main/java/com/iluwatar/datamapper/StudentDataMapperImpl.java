@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.datamapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.Getter;
 
 /**
  * Implementation of Actions on Students Data.
  */
+@Getter
 public final class StudentDataMapperImpl implements StudentDataMapper {
 
   /* Note: Normally this would be in the form of an actual database */
-  private List<Student> students = new ArrayList<>();
+  private final List<Student> students = new ArrayList<>();
 
   @Override
   public Optional<Student> find(int studentId) {
@@ -68,9 +71,5 @@ public final class StudentDataMapperImpl implements StudentDataMapper {
       String name = studentToBeDeleted.getName();
       throw new DataMapperException("Student [" + name + "] is not found");
     }
-  }
-
-  public List<Student> getStudents() {
-    return this.students;
   }
 }

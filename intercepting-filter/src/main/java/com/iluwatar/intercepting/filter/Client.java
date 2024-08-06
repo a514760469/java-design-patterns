@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +22,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.intercepting.filter;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -44,18 +46,18 @@ import javax.swing.WindowConstants;
  * <p>This is where {@link Filter}s come to play as the client pre-processes the request before
  * being displayed in the {@link Target}.
  *
- * @author joshzambales
  */
 public class Client extends JFrame { // NOSONAR
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private transient FilterManager filterManager;
-  private JLabel jl;
-  private JTextField[] jtFields;
-  private JTextArea[] jtAreas;
-  private JButton clearButton;
-  private JButton processButton;
+  private final JLabel jl;
+  private final JTextField[] jtFields;
+  private final JTextArea[] jtAreas;
+  private final JButton clearButton;
+  private final JButton processButton;
 
   /**
    * Constructor.

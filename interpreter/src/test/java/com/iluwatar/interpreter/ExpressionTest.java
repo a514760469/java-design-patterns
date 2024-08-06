@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.interpreter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,12 +37,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Date: 12/14/15 - 11:48 AM
- * <p>
  * Test Case for Expressions
  *
  * @param <E> Type of Expression
- * @author Jeroen Meulemeester
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class ExpressionTest<E extends Expression> {
@@ -101,7 +99,7 @@ public abstract class ExpressionTest<E extends Expression> {
    */
   @ParameterizedTest
   @MethodSource("expressionProvider")
-  public void testInterpret(NumberExpression first, NumberExpression second, int result) {
+  void testInterpret(NumberExpression first, NumberExpression second, int result) {
     final var expression = factory.apply(first, second);
     assertNotNull(expression);
     assertEquals(result, expression.interpret());
@@ -112,7 +110,7 @@ public abstract class ExpressionTest<E extends Expression> {
    */
   @ParameterizedTest
   @MethodSource("expressionProvider")
-  public void testToString(NumberExpression first, NumberExpression second) {
+  void testToString(NumberExpression first, NumberExpression second) {
     final var expression = factory.apply(first, second);
     assertNotNull(expression);
     assertEquals(expectedToString, expression.toString());

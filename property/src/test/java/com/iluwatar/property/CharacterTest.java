@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.property;
 
 import static com.iluwatar.property.Character.Type;
@@ -33,14 +34,13 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 /**
- * Date: 12/28/15 - 7:46 PM
+ * CharacterTest
  *
- * @author Jeroen Meulemeester
  */
-public class CharacterTest {
+class CharacterTest {
 
   @Test
-  public void testPrototypeStats() throws Exception {
+  void testPrototypeStats() {
     final var prototype = new Character();
 
     for (final var stat : Stats.values()) {
@@ -60,7 +60,7 @@ public class CharacterTest {
   }
 
   @Test
-  public void testCharacterStats() {
+  void testCharacterStats() {
     final var prototype = new Character();
     Arrays.stream(Stats.values()).forEach(stat -> prototype.set(stat, stat.ordinal()));
 
@@ -73,25 +73,43 @@ public class CharacterTest {
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     final var prototype = new Character();
     prototype.set(Stats.ARMOR, 1);
     prototype.set(Stats.AGILITY, 2);
     prototype.set(Stats.INTELLECT, 3);
-    assertEquals("Stats:\n - AGILITY:2\n - ARMOR:1\n - INTELLECT:3\n", prototype.toString());
+    var message = """
+            Stats:
+             - AGILITY:2
+             - ARMOR:1
+             - INTELLECT:3
+            """;
+    assertEquals(message, prototype.toString());
 
     final var stupid = new Character(Type.ROGUE, prototype);
     stupid.remove(Stats.INTELLECT);
-    assertEquals("Character type: ROGUE\nStats:\n - AGILITY:2\n - ARMOR:1\n", stupid.toString());
+    String expectedStupidString = """
+            Character type: ROGUE
+            Stats:
+             - AGILITY:2
+             - ARMOR:1
+            """;
+    assertEquals(expectedStupidString, stupid.toString());
 
     final var weak = new Character("weak", prototype);
     weak.remove(Stats.ARMOR);
-    assertEquals("Player: weak\nStats:\n - AGILITY:2\n - INTELLECT:3\n", weak.toString());
+    String expectedWeakString = """
+            Player: weak
+            Stats:
+             - AGILITY:2
+             - INTELLECT:3
+            """;
+    assertEquals(expectedWeakString, weak.toString());
 
   }
 
   @Test
-  public void testName() {
+  void testName() {
     final var prototype = new Character();
     prototype.set(Stats.ARMOR, 1);
     prototype.set(Stats.INTELLECT, 2);
@@ -107,7 +125,7 @@ public class CharacterTest {
   }
 
   @Test
-  public void testType() {
+  void testType() {
     final var prototype = new Character();
     prototype.set(Stats.ARMOR, 1);
     prototype.set(Stats.INTELLECT, 2);

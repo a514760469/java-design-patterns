@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.event.aggregator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,21 +38,20 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
 /**
- * Date: 12/12/15 - 3:04 PM
+ * KingJoffreyTest
  *
- * @author Jeroen Meulemeester
  */
-public class KingJoffreyTest {
+class KingJoffreyTest {
 
   private InMemoryAppender appender;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     appender = new InMemoryAppender(KingJoffrey.class);
   }
 
   @AfterEach
-  public void tearDown() {
+  void tearDown() {
     appender.stop();
   }
 
@@ -59,22 +59,22 @@ public class KingJoffreyTest {
    * Test if {@link KingJoffrey} tells us what event he received
    */
   @Test
-  public void testOnEvent() {
+  void testOnEvent() {
     final var kingJoffrey = new KingJoffrey();
 
     IntStream.range(0, Event.values().length).forEach(i -> {
       assertEquals(i, appender.getLogSize());
       var event = Event.values()[i];
       kingJoffrey.onEvent(event);
-      final var expectedMessage = "Received event from the King's Hand: " + event.toString();
+      final var expectedMessage = "Received event from the King's Hand: " + event;
       assertEquals(expectedMessage, appender.getLastMessage());
       assertEquals(i + 1, appender.getLogSize());
     });
 
   }
 
-  private class InMemoryAppender extends AppenderBase<ILoggingEvent> {
-    private List<ILoggingEvent> log = new LinkedList<>();
+  private static class InMemoryAppender extends AppenderBase<ILoggingEvent> {
+    private final List<ILoggingEvent> log = new LinkedList<>();
 
     public InMemoryAppender(Class<?> clazz) {
       ((Logger) LoggerFactory.getLogger(clazz)).addAppender(this);

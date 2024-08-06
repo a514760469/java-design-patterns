@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.privateclassdata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,21 +32,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Date: 12/27/15 - 10:46 PM
+ * ImmutableStewTest
  *
- * @author Jeroen Meulemeester
  */
-public class ImmutableStewTest {
+class ImmutableStewTest {
 
   private InMemoryAppender appender;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     appender = new InMemoryAppender();
   }
 
   @AfterEach
-  public void tearDown() {
+  void tearDown() {
     appender.stop();
   }
 
@@ -53,7 +53,7 @@ public class ImmutableStewTest {
    * Verify if mixing the stew doesn't change the internal state
    */
   @Test
-  public void testMix() {
+  void testMix() {
     var stew = new Stew(1, 2, 3, 4);
     var expectedMessage = "Mixing the stew we find: 1 potatoes, 2 carrots, 3 meat and 4 peppers";
 
@@ -69,7 +69,7 @@ public class ImmutableStewTest {
    * Verify if tasting the stew actually removes one of each ingredient
    */
   @Test
-  public void testDrink() {
+  void testDrink() {
     final var stew = new Stew(1, 2, 3, 4);
     stew.mix();
 

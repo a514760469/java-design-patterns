@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.delegation.simple;
 
 import com.iluwatar.delegation.simple.printers.CanonPrinter;
@@ -37,9 +38,9 @@ import com.iluwatar.delegation.simple.printers.HpPrinter;
  *
  * <p>In this example the delegates are {@link EpsonPrinter}, {@link HpPrinter} and {@link
  * CanonPrinter} they all implement {@link Printer}. The {@link PrinterController} class also
- * implements {@link Printer}. However neither provide the functionality of {@link Printer} by
+ * implements {@link Printer}. However, neither provide the functionality of {@link Printer} by
  * printing to the screen, they actually call upon the instance of {@link Printer} that they were
- * instantiated with. Therefore delegating the behaviour to another class.
+ * instantiated with. Therefore, delegating the behaviour to another class.
  */
 public class App {
 

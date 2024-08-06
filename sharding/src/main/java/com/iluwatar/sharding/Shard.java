@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.sharding;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 /**
  * The Shard class stored data in a HashMap.
  */
 public class Shard {
 
+  @Getter
   private final int id;
 
-  private Map<Integer, Data> dataStore;
+  private final Map<Integer, Data> dataStore;
 
   public Shard(final int id) {
     this.id = id;
@@ -51,9 +54,4 @@ public class Shard {
   public Data getDataById(final int id) {
     return dataStore.get(id);
   }
-
-  public int getId() {
-    return id;
-  }
-
 }

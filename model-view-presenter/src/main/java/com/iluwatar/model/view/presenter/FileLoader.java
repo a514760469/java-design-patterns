@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.model.view.presenter;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.Serial;
 import java.io.Serializable;
+import java.util.stream.Collectors;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,11 +40,13 @@ import org.slf4j.LoggerFactory;
  *
  * <p>It is responsible for reading and loading the contents of a given file.
  */
+@Getter
 public class FileLoader implements Serializable {
 
   /**
    * Generated serial version UID.
    */
+  @Serial
   private static final long serialVersionUID = -4745803872902019069L;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FileLoader.class);
@@ -59,18 +65,11 @@ public class FileLoader implements Serializable {
    * Loads the data of the file specified.
    */
   public String loadData() {
-    String dataFileName = this.fileName;
-    try (BufferedReader br = new BufferedReader(new FileReader(new File(dataFileName)))) {
-      StringBuilder sb = new StringBuilder();
-      String line;
-
-      while ((line = br.readLine()) != null) {
-        sb.append(line).append('\n');
-      }
-
+    var dataFileName = this.fileName;
+    try (var br = new BufferedReader(new FileReader(dataFileName))) {
+      var result = br.lines().collect(Collectors.joining("\n"));
       this.loaded = true;
-
-      return sb.toString();
+      return result;
     } catch (Exception e) {
       LOGGER.error("File {} does not exist", dataFileName);
     }
@@ -88,29 +87,11 @@ public class FileLoader implements Serializable {
   }
 
   /**
-   * Gets the path of the file to be loaded.
-   *
-   * @return fileName The path of the file to be loaded.
-   */
-  public String getFileName() {
-    return this.fileName;
-  }
-
-  /**
    * Returns true if the given file exists.
    *
    * @return True, if the file given exists, false otherwise.
    */
   public boolean fileExists() {
     return new File(this.fileName).exists();
-  }
-
-  /**
-   * Returns true if the given file is loaded.
-   *
-   * @return True, if the file is loaded, false otherwise.
-   */
-  public boolean isLoaded() {
-    return this.loaded;
   }
 }

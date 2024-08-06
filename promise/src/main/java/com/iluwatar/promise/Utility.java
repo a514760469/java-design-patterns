@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.promise;
 
 import java.io.BufferedReader;
@@ -36,15 +37,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Utility to perform various operations.
  */
+@Slf4j
 public class Utility {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(Utility.class);
 
   /**
    * Calculates character frequency of the file provided.
@@ -59,7 +58,7 @@ public class Utility {
           .mapToObj(x -> (char) x)
           .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     } catch (IOException ex) {
-      ex.printStackTrace();
+      LOGGER.error("An error occurred: ", ex);
     }
     return Collections.emptyMap();
   }
@@ -87,7 +86,7 @@ public class Utility {
     try (var bufferedReader = new BufferedReader(new FileReader(fileLocation))) {
       return (int) bufferedReader.lines().count();
     } catch (IOException ex) {
-      ex.printStackTrace();
+      LOGGER.error("An error occurred: ", ex);
     }
     return 0;
   }

@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.retry;
 
 import org.slf4j.Logger;
@@ -53,12 +54,12 @@ import org.slf4j.LoggerFactory;
  * <p>To keep the calling code as decoupled as possible from this workaround, we have implemented
  * the retry mechanism as a {@link BusinessOperation} named {@link Retry}.
  *
- * @author George Aristy (george.aristy@gmail.com)
  * @see <a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/retry">Retry pattern
  *     (Microsoft Azure Docs)</a>
  */
 public final class App {
   private static final Logger LOG = LoggerFactory.getLogger(App.class);
+  public static final String NOT_FOUND = "not found";
   private static BusinessOperation<String> op;
 
   /**
@@ -81,7 +82,7 @@ public final class App {
   }
 
   private static void errorNoRetry() throws Exception {
-    op = new FindCustomer("123", new CustomerNotFoundException("not found"));
+    op = new FindCustomer("123", new CustomerNotFoundException(NOT_FOUND));
     try {
       op.perform();
     } catch (CustomerNotFoundException e) {
@@ -91,7 +92,7 @@ public final class App {
 
   private static void errorWithRetry() throws Exception {
     final var retry = new Retry<>(
-        new FindCustomer("123", new CustomerNotFoundException("not found")),
+        new FindCustomer("123", new CustomerNotFoundException(NOT_FOUND)),
         3,  //3 attempts
         100, //100 ms delay between attempts
         e -> CustomerNotFoundException.class.isAssignableFrom(e.getClass())
@@ -106,7 +107,7 @@ public final class App {
 
   private static void errorWithRetryExponentialBackoff() throws Exception {
     final var retry = new RetryExponentialBackoff<>(
-        new FindCustomer("123", new CustomerNotFoundException("not found")),
+        new FindCustomer("123", new CustomerNotFoundException(NOT_FOUND)),
         6,  //6 attempts
         30000, //30 s max delay between attempts
         e -> CustomerNotFoundException.class.isAssignableFrom(e.getClass())

@@ -1,6 +1,8 @@
 /*
+ * This project is licensed under the MIT license. Module model-view-viewmodel is using ZK framework licensed under LGPL (see lgpl-3.0.txt).
+ *
  * The MIT License
- * Copyright © 2014-2019 Ilkka Seppälä
+ * Copyright © 2014-2022 Ilkka Seppälä
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,25 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.iluwatar.event.aggregator;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 /**
- * Date: 12/12/15 - 10:57 AM
+ * KingsHandTest
  *
- * @author Jeroen Meulemeester
  */
-public class KingsHandTest extends EventEmitterTest<KingsHand> {
+class KingsHandTest extends EventEmitterTest<KingsHand> {
 
   /**
    * Create a new test instance, using the correct object factory
@@ -49,16 +48,20 @@ public class KingsHandTest extends EventEmitterTest<KingsHand> {
 
   /**
    * The {@link KingsHand} is both an {@link EventEmitter} as an {@link EventObserver} so verify if
-   * every event received is passed up to it's superior, in most cases {@link KingJoffrey} but now
+   * every event received is passed up to its superior, in most cases {@link KingJoffrey} but now
    * just a mocked observer.
    */
   @Test
-  public void testPassThrough() throws Exception {
+  void testPassThrough() {
     final var observer = mock(EventObserver.class);
-    final var kingsHand = new KingsHand(observer);
+    final var kingsHand = new KingsHand();
+    kingsHand.registerObserver(observer, Event.STARK_SIGHTED);
+    kingsHand.registerObserver(observer, Event.WARSHIPS_APPROACHING);
+    kingsHand.registerObserver(observer, Event.TRAITOR_DETECTED);
+    kingsHand.registerObserver(observer, Event.WHITE_WALKERS_SIGHTED);
 
     // The kings hand should not pass any events before he received one
-    verifyZeroInteractions(observer);
+    verifyNoMoreInteractions(observer);
 
     // Verify if each event is passed on to the observer, nothing less, nothing more.
     Arrays.stream(Event.values()).forEach(event -> {
